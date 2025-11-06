@@ -3,7 +3,7 @@
 BsuTennis is a Python package designed to create visualizations of tennis courts and provide tools for tennis-related data analysis. 
 It supports various court types and offers a wide range of plotting options.
 
-##What is BsuTennis
+## What is BsuTennis
 
 In BsuTennis, you can:
 
