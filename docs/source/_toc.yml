@@ -1,0 +1,21 @@
+format: jb-book
+root: index
+parts:
+  - caption: Introduction
+    chapters:
+      - file: Introduction/Overview
+      - file: Introduction/Intro_to_Tennis_data
+  - caption: Getting Started
+    chapters:
+      - file: Getting_Started/Installation
+      - file: Getting_Started/Loading_Game
+  - caption: Visualizing Tennis Data
+    chapters: 
+      - file: Visualizing/Visualizing_Tennis_Data
+  - caption: Data Analysis
+    chapters:
+      - file: Data_Analysis/Data_Analysis
+  - caption: Examples
+    chapters:
+      - file: Examples/Examples
+

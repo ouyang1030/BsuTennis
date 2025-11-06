@@ -1,0 +1,10 @@
+sphinx
+sphinx_book_theme
+myst_nb
+sphinx_togglebutton
+sphinx_copybutton
+sphinx_thebe
+sphinx_comments
+sphinx_external_toc
+sphinx_design
+sphinx_multitoc_numbering
