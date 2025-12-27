@@ -11,11 +11,14 @@ parts:
       - file: Getting_Started/Loading_Game
   - caption: Visualizing Tennis Data
     chapters: 
-      - file: Visualizing/Visualizing_Tennis_Data
+      - file: Visualizing/Court_Plots
+      - file: Visualizing/Advanced_Plots
+      - file: Visualizing/Statistical_Charts
+      - file: Visualizing/Themes
+      - file: Visualizing/Data_Utilities
   - caption: Data Analysis
     chapters:
       - file: Data_Analysis/Data_Analysis
   - caption: Examples
     chapters:
       - file: Examples/Examples
-
