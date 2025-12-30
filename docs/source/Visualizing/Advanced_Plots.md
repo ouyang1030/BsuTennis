@@ -1,22 +1,16 @@
 # Advanced Visualizations
 
-Advanced density plots, statistical charts, and joint distributions for in-depth tennis analysis.
+Density plots, heatmaps, and joint distributions for in-depth shot pattern analysis.
 
 ---
 
-## Density Analysis
+## KDE (Kernel Density Estimation)
 
-### KDE (Kernel Density Estimation)
+Smooth contour plots showing shot concentration.
 
-Smooth contour plots showing shot concentration areas.
-
-````carousel
-![Green KDE](../_static/test_kde_green.png)
-<!-- slide -->
-![Red KDE](../_static/test_kde_red.png)
-<!-- slide -->
-![Blue KDE](../_static/test_kde_blue.png)
-````
+| Green | Red | Blue |
+| :---: | :---: | :---: |
+| ![Green](../_static/test_kde_green.png) | ![Red](../_static/test_kde_red.png) | ![Blue](../_static/test_kde_blue.png) |
 
 ```python
 court.kdeplot(ax, x, y, cmap='bsu_green', levels=50, alpha=0.6)
@@ -26,11 +20,13 @@ court.kdeplot(ax, x, y, cmap='bsu_green', levels=50, alpha=0.6)
 
 ---
 
-### Heatmap (Grid)
+## Heatmap (Grid)
 
-Frequency distribution across defined grid cells.
+Frequency distribution across grid cells.
 
-![Heatmap](../_static/test_heatmap_freq.png)
+| Counts | Frequency (%) |
+| :---: | :---: |
+| ![Counts](../_static/test_heatmap_counts.png) | ![Frequency](../_static/test_heatmap_freq.png) |
 
 ```python
 court.heatmap(ax, x, y, gridsize=8, statistic='frequency', half=True)
@@ -38,15 +34,13 @@ court.heatmap(ax, x, y, gridsize=8, statistic='frequency', half=True)
 
 ---
 
-### Hexbin
+## Hexbin
 
 Honeycomb-style density visualization.
 
-````carousel
-![Full Hexbin](../_static/test_heatmap_hex.png)
-<!-- slide -->
-![Half Hexbin](../_static/test_heatmap_hex_half.png)
-````
+| Full Court | Half Court |
+| :---: | :---: |
+| ![Full](../_static/test_heatmap_hex.png) | ![Half](../_static/test_heatmap_hex_half.png) |
 
 ```python
 court.hexbin(ax, x, y, gridsize=20, cmap='bsu_green', half=True)
@@ -54,17 +48,13 @@ court.hexbin(ax, x, y, gridsize=20, cmap='bsu_green', half=True)
 
 ---
 
-## Statistical Charts
-
-### Pizza Chart
+## Pizza Chart
 
 Radial bar charts for player performance metrics.
 
-````carousel
-![BSU Pizza](../_static/test_pizza_bsu.png)
-<!-- slide -->
-![Comparison Pizza](../_static/test_pizza_compare.png)
-````
+| BSU Theme | Comparison |
+| :---: | :---: |
+| ![BSU](../_static/test_pizza_bsu.png) | ![Compare](../_static/test_pizza_compare.png) |
 
 ```python
 from BsuTennis import pizza
@@ -75,37 +65,19 @@ fig, ax = pizza('Player Name', stats, theme='bsu')
 
 ---
 
-### Sonar Chart
+## Sonar Chart
 
-Directional distribution from court zones.
+Shot direction distribution from court zones.
 
-````carousel
-![6-Direction Sonar](../_static/test_sonar_6dir.png)
-<!-- slide -->
-![8-Direction Sonar](../_static/test_sonar_8dir.png)
-<!-- slide -->
-![Custom Sonar](../_static/test_sonar_custom.png)
-````
+| 6-Direction | 8-Direction | Custom |
+| :---: | :---: | :---: |
+| ![6-Dir](../_static/test_sonar_6dir.png) | ![8-Dir](../_static/test_sonar_8dir.png) | ![Custom](../_static/test_sonar_custom.png) |
 
 ```python
 from BsuTennis import sonar_from_shots
 
 sonar_from_shots(ax, shot_x, shot_y, shot_dx, shot_dy,
                  n_zones_x=3, n_zones_y=2, n_directions=6)
-```
-
----
-
-### Radar Chart
-
-![Radar](../_static/test_radar.png)
-
-```python
-from BsuTennis import Radar
-
-radar = Radar(params=['Speed', 'Power', 'Accuracy', 'Stamina', 'Mental'])
-fig, ax = radar.setup_axis()
-radar.draw_radar(ax, values=[85, 78, 92, 80, 88])
 ```
 
 ---
@@ -124,18 +96,18 @@ from BsuTennis import joint_plot
 fig, ax = joint_plot(p1_x, p1_y, p2_x, p2_y, kind='kde', half=False)
 ```
 
-### Half Court (Single Player)
+### Half Court
 
-````carousel
-![Half Scatter](../_static/test_joint_half_scatter.png)
-<!-- slide -->
-![Half KDE](../_static/test_joint_half_kde.png)
-<!-- slide -->
-![Half Grid](../_static/test_joint_grid.png)
-````
+| Scatter | Grid |
+| :---: | :---: |
+| ![Scatter](../_static/test_joint_half_scatter.png) | ![Grid](../_static/test_joint_grid.png) |
+
+![KDE](../_static/test_joint_kde.png)
 
 ```python
 fig, ax = joint_plot(x, y, kind='scatter', half=True)
+fig, ax = joint_plot(x, y, kind='grid', half=True)
+fig, ax = joint_plot(x, y, kind='kde', half=False)
 ```
 
-**Visualization Types**: `scatter`, `kde`, `grid`
+**Types**: `scatter`, `kde`, `grid`

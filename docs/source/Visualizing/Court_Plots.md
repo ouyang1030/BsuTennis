@@ -1,6 +1,6 @@
 # Court Visualizations
 
-The ``TennisCourt`` class is the foundation of BsuTennis visualization. It provides intuitive methods for drawing courts and overlaying data.
+The ``TennisCourt`` class is the foundation of BsuTennis. It draws courts and overlays data with various orientations and themes.
 
 ---
 
@@ -20,30 +20,30 @@ plt.show()
 
 ## Court Themes
 
-Choose from multiple court surface themes for different visual styles.
-
-| BSU (Default) | Hard Court | Clay Court | Grass Court |
+| BSU | Hard | Clay | Grass |
 | :---: | :---: | :---: | :---: |
 | ![BSU](../_static/test_theme_bsu.png) | ![Hard](../_static/test_theme_hard.png) | ![Clay](../_static/test_theme_clay.png) | ![Grass](../_static/test_theme_grass.png) |
 
 ```python
-# Available themes: 'bsu', 'hard', 'clay', 'grass'
+court = TennisCourt(theme='bsu')   # Default
+court = TennisCourt(theme='hard')
 court = TennisCourt(theme='clay')
+court = TennisCourt(theme='grass')
 ```
 
 ---
 
 ## Court Orientations
 
-| Full Court (Horizontal) | Half Court (Vertical) |
+| Full Court | Half Court |
 | :---: | :---: |
-| ![Horizontal](../_static/test_horizontal_doubles.png) | ![Vertical](../_static/test_vertical_singles.png) |
+| ![Full Court](../_static/test_vertical_singles.png) | ![Half Court](../_static/test_half_court_vertical.png) |
 
 ```python
-# Full court (default: horizontal)
+# Full court
 court = TennisCourt(half=False)
 
-# Half court (default: vertical)
+# Half court (recommended for analysis)
 court = TennisCourt(half=True)
 ```
 
@@ -53,19 +53,13 @@ court = TennisCourt(half=True)
 
 Visualize shot landing points with customizable markers.
 
-````carousel
-![Horizontal Scatter](../_static/test_scatter_h.png)
-<!-- slide -->
-![Vertical Scatter](../_static/test_scatter_v.png)
-````
+![Scatter Plot](../_static/test_scatter_h.png)
 
 ```python
 court.scatter(ax, x, y, color='#e74c3c', s=60, alpha=0.8)
 ```
 
 ### Preset Styles
-
-Quick styling for common event types:
 
 ![Scatter Styles](../_static/test_scatter_styles.png)
 
@@ -82,11 +76,12 @@ court.scatter(ax, x, y, style='ue')         # Error marker
 
 Draw shot directions with customizable arrows.
 
+![Arrows](../_static/test_arrows_h.png)
+
 ```python
 court.arrows(ax, x_start, y_start, x_end, y_end,
-             color='#e74c3c',      # Color
-             linewidth=2,          # Thickness
-             linestyle='solid',    # solid/dashed/dotted
+             color='#e74c3c',      
+             linewidth=2,          
              arrow_style='fancy')  # fancy/simple/wedge/curve
 ```
 
@@ -96,9 +91,9 @@ court.arrows(ax, x_start, y_start, x_end, y_end,
 
 Overlay tactical zones for serve analysis.
 
-| Vertical (3 Zones) | Horizontal (2 Zones) |
+| Vertical | Horizontal |
 | :---: | :---: |
-| ![Vertical Guides](../_static/test_half_vertical_zones.png) | ![Horizontal Guides](../_static/test_half_horizontal_zones.png) |
+| ![Vertical](../_static/test_half_vertical_zones.png) | ![Horizontal](../_static/test_half_horizontal_zones.png) |
 
 ```python
 court.draw_guides(ax, service_vertical_lines=2, backcourt_line=True)
@@ -110,13 +105,9 @@ court.draw_guides(ax, service_vertical_lines=2, backcourt_line=True)
 
 Compare multiple players or scenarios side-by-side.
 
-````carousel
-![1×3 Grid](../_static/test_grid_1x3_vertical.png)
-<!-- slide -->
-![2×3 Grid](../_static/test_grid_2x3_horizontal.png)
-<!-- slide -->
-![3×3 Grid](../_static/test_grid_3x3_vertical.png)
-````
+| 1×3 Grid | 2×3 Grid | 3×3 Grid |
+| :---: | :---: | :---: |
+| ![1x3](../_static/test_grid_1x3_vertical.png) | ![2x3](../_static/test_grid_2x3_horizontal.png) | ![3x3](../_static/test_grid_3x3_vertical.png) |
 
 ```python
 from BsuTennis import create_court_grid
@@ -124,4 +115,14 @@ from BsuTennis import create_court_grid
 fig, axes, courts = create_court_grid(nrows=2, ncols=3, half=True)
 for ax, court in zip(axes.flat, courts):
     court.draw(ax=ax)
+```
+
+---
+
+## Text Annotations
+
+Add labels directly on the court.
+
+```python
+court.annotate(ax, x=0, y=5, text='Service Box', fontsize=12, color='white')
 ```
