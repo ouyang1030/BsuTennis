@@ -1,10 +1,8 @@
 # Statistical Charts
 
-Beyond court plotting, ``BsuTennis.chart`` provides functions for general statistical visualization with a consistent aesthetic.
+Beyond court plotting, `BsuTennis` provides functions for general statistical visualization with a consistent aesthetic.
 
 ## Standard Charts
-
-Import these functions from ``BsuTennis.chart``:
 
 ### Bar Charts
 ```python
@@ -53,23 +51,37 @@ plot_line(
 )
 ```
 
-## Radar Charts
+## Radar Chart (Player Comparison)
 
-Use the ``Radar`` class to compare multivariate data.
+The `Radar` class creates spider/radar charts for comparing player statistics across multiple dimensions.
 
 ```python
 from BsuTennis import Radar
 import matplotlib.pyplot as plt
 
-radar = Radar(
-    params=['Serve', 'Return', 'Forehand', 'Backhand', 'Volley', 'Mental'],
-    range_min=[0]*6,
-    range_max=[100]*6
-)
+# Define parameters and ranges
+params = ['Serve Speed\n(km/h)', 'First Serve\n(%)', 'Aces\n(per match)', 
+          'Winners\n(per match)', 'Break Points\nWon (%)', 'Rally\nLength']
+min_range = [150, 50, 0, 20, 30, 3]
+max_range = [220, 80, 15, 60, 70, 8]
 
-fig, ax = plt.subplots(figsize=(6, 6))
-radar.setup_axis(ax)
-radar.draw(ax, values=[80, 70, 90, 60, 50, 85], color='blue', alpha=0.3)
+# Create radar instance
+radar = Radar(params, min_range=min_range, max_range=max_range)
+
+# Setup axis
+fig, ax = radar.setup_axis(figsize=(10, 10))
+
+# Draw background grid
+radar.draw_circles(ax, num_rings=5)
+
+# Draw player data
+radar.draw(ax, [205, 68, 12, 48, 55, 6.5], label='Player A', color='#e74c3c')
+radar.draw(ax, [195, 72, 8, 52, 62, 5.8], label='Player B', color='#3498db')
+
+# Add legend and title
+plt.legend(loc='upper right', bbox_to_anchor=(1.25, 1.1))
+plt.title('Player Performance Comparison', size=16, weight='bold')
+plt.show()
 ```
 
 ![Radar Chart](../_static/test_radar.png)

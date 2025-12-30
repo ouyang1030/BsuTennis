@@ -85,19 +85,41 @@ def classify_serve_zone(x, y):
 
 def classify_shot_depth(y, max_length=11.885):
     """
-    Classify shot depth (Short, Middle, Long).
-    Based on 'draw_moving_bar.py' categories?
-    Not explicitly defined there, but usually:
-    Short: Service box lines?
-    User categories: Short (0-2m), Medium (2-4m), Long (>4m).
-    This refers to RUNNING DISTANCE not shot depth.
+    Classify shot depth based on y-coordinate.
     
-    For landing depth (common in tennis analysis):
-    - Service Box (0-6.4m)
-    - No Man's Land (6.4-8.23m approx)
-    - Deep (8.23-11.89m)
+    Parameters
+    ----------
+    y : float or array-like
+        Shot landing y-coordinate (in centered court coords, y > 0).
+    max_length : float, default 11.885
+        Half court length.
     
-    Since user didn't define shot depth logic explicitly in the files I reviewed (except moving distance),
-    I will omit this for now to avoid confusion.
+    Returns
+    -------
+    str or array-like
+        Depth category: 'Short', 'Medium', or 'Deep'.
+        
+    Notes
+    -----
+    Categories based on typical tennis analysis:
+    - Short: 0 to service line (0-6.4m) - within service box
+    - Medium: Service line to no-man's land (6.4-9.0m)
+    - Deep: Near baseline (9.0-11.89m)
     """
-    pass
+    import numpy as np
+    
+    SERVICE_LINE = 6.4
+    DEEP_THRESHOLD = 9.0
+    
+    y = np.asarray(y)
+    scalar_input = y.ndim == 0
+    y = np.atleast_1d(y)
+    
+    result = np.empty(y.shape, dtype=object)
+    result[y <= SERVICE_LINE] = 'Short'
+    result[(y > SERVICE_LINE) & (y <= DEEP_THRESHOLD)] = 'Medium'
+    result[y > DEEP_THRESHOLD] = 'Deep'
+    
+    if scalar_input:
+        return result[0]
+    return result

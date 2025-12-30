@@ -15,7 +15,7 @@ court = TennisCourt(theme='clay')
 
 | Theme Name | Description | Pitch Color | Line Color |
 | :--- | :--- | :--- | :--- |
-| ``'bsu'`` | Default BSU style (Light Blue/white) | Transparent | Black |
+| ``'bsu'`` | Standard BSU style (White/Black) | Transparent | Black |
 | ``'hard'`` | Standard Hard Court (Blue) | #3C638E | White |
 | ``'clay'`` | Clay Court (Orange) | #CC5500 | White |
 | ``'grass'`` | Grass Court (Green) | #4B8B3B | White |
@@ -27,7 +27,18 @@ court = TennisCourt(theme='clay')
 
 ## Customizing Elements
 
-You can further customize plots using standard Matplotlib arguments (kwargs).
+### Manual Colors
+You can override themes by setting colors directly:
 
-- **Scatter Styles**: Use ``SCATTER_STYLES`` presets (e.g., ``'winner_fh'``) in `scatter()`.
-- **KDE Colors**: Use ``bsu_red``, ``bsu_blue``, ``bsu_green`` colormaps in `kdeplot()` and `heatmap()`.
+```python
+# Custom White Background, Black Lines
+court = TennisCourt(pitch_color='white', line_color='black')
+```
+
+### BSU Theme Guidelines
+- **Service Zones**: Dashed vertical lines divide the service box into **three equal columns** (Wide, Body, T).
+- **Backcourt**: A dashed horizontal line bisects the No Man's Land to help analyze Rally Depth (Deep vs Shallow).
+
+### Scatter Styles & Colormaps
+- **Scatter**: Use ``SCATTER_STYLES`` presets (e.g., ``'winner_fh'``) in `scatter()`.
+- **KDE/Heatmap**: Use ``bsu_red``, ``bsu_blue``, ``bsu_green`` colormaps.

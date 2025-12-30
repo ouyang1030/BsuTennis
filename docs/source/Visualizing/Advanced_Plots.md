@@ -1,63 +1,141 @@
 # Advanced Visualizations
 
-For analyzing shot distributions and patterns, ``BsuTennis`` provides advanced density and joint plots.
+Advanced density plots, statistical charts, and joint distributions for in-depth tennis analysis.
 
-## Kernel Density Estimation (KDE)
+---
 
-Visualize shot density with smooth contours.
+## Density Analysis
 
-```python
-# Standard Green KDE
-court.kdeplot(ax, x, y, cmap='bsu_green', levels=100)
+### KDE (Kernel Density Estimation)
 
-# Clipped Red KDE (e.g., Forehands)
-court.kdeplot(ax, x, y, cmap='bsu_red', clip=((-4.1, 4.1), (0, 11.89)))
-```
+Smooth contour plots showing shot concentration areas.
 
-### Custom Colormaps
-We provide tailored colormaps that work well on white backgrounds:
-- ``bsu_green`` (default)
-- ``bsu_red``
-- ``bsu_blue``
-
-![KDE Green](../_static/test_kde_green.png)
-
-## Grid Heatmaps (Bin Statistic)
-
-Visualize frequencies across a defined grid (similar to typical soccer analysis plots).
+````carousel
+![Green KDE](../_static/test_kde_green.png)
+<!-- slide -->
+![Red KDE](../_static/test_kde_red.png)
+<!-- slide -->
+![Blue KDE](../_static/test_kde_blue.png)
+````
 
 ```python
-# 5x5 Grid with Annotations
-court.heatmap(ax, x, y, bins=(5, 5), statistic='frequency', annot=True, cmap='Blues')
+court.kdeplot(ax, x, y, cmap='bsu_green', levels=50, alpha=0.6)
 ```
-- **bins**: Number of grid cells ``(nx, ny)``.
-- **statistic**: ``'count'`` or ``'frequency'``.
-- **annot**: Show values in cells.
 
-![Heatmap Freq](../_static/test_heatmap_freq.png)
+**Colormaps**: `bsu_green`, `bsu_red`, `bsu_blue`
 
-## Hexbin Plots
+---
 
-Create honeycomb-style density maps for a modern aesthetic.
+### Heatmap (Grid)
+
+Frequency distribution across defined grid cells.
+
+![Heatmap](../_static/test_heatmap_freq.png)
 
 ```python
-court.hexbin(ax, x, y, gridsize=20, cmap='bsu_blue', edgecolors='white', mincnt=1)
+court.heatmap(ax, x, y, gridsize=8, statistic='frequency', half=True)
 ```
 
-![Hexbin](../_static/test_heatmap_hex.png)
+---
 
-## Joint Grid Plots
+### Hexbin
 
-Visualize the main court plot alongside marginal distributions (histograms/densities) of x and y coordinates.
+Honeycomb-style density visualization.
+
+````carousel
+![Full Hexbin](../_static/test_heatmap_hex.png)
+<!-- slide -->
+![Half Hexbin](../_static/test_heatmap_hex_half.png)
+````
+
+```python
+court.hexbin(ax, x, y, gridsize=20, cmap='bsu_green', half=True)
+```
+
+---
+
+## Statistical Charts
+
+### Pizza Chart
+
+Radial bar charts for player performance metrics.
+
+````carousel
+![BSU Pizza](../_static/test_pizza_bsu.png)
+<!-- slide -->
+![Comparison Pizza](../_static/test_pizza_compare.png)
+````
+
+```python
+from BsuTennis import pizza
+
+stats = {'Aces': 85, 'Winners': 72, '1st Serve %': 68}
+fig, ax = pizza('Player Name', stats, theme='bsu')
+```
+
+---
+
+### Sonar Chart
+
+Directional distribution from court zones.
+
+````carousel
+![6-Direction Sonar](../_static/test_sonar_6dir.png)
+<!-- slide -->
+![8-Direction Sonar](../_static/test_sonar_8dir.png)
+<!-- slide -->
+![Custom Sonar](../_static/test_sonar_custom.png)
+````
+
+```python
+from BsuTennis import sonar_from_shots
+
+sonar_from_shots(ax, shot_x, shot_y, shot_dx, shot_dy,
+                 n_zones_x=3, n_zones_y=2, n_directions=6)
+```
+
+---
+
+### Radar Chart
+
+![Radar](../_static/test_radar.png)
+
+```python
+from BsuTennis import Radar
+
+radar = Radar(params=['Speed', 'Power', 'Accuracy', 'Stamina', 'Mental'])
+fig, ax = radar.setup_axis()
+radar.draw_radar(ax, values=[85, 78, 92, 80, 88])
+```
+
+---
+
+## Joint Plots
+
+Court visualization with marginal distributions.
+
+### Full Court (Two Players)
+
+![Joint KDE](../_static/test_joint_kde.png)
 
 ```python
 from BsuTennis import joint_plot
 
-# Scatter with Marginals
-fig, axes = joint_plot(x, y, kind='scatter', theme='bsu')
-
-# KDE with Marginals
-fig, axes = joint_plot(x, y, kind='kde', theme='bsu')
+fig, ax = joint_plot(p1_x, p1_y, p2_x, p2_y, kind='kde', half=False)
 ```
 
-![Joint Scatter](../_static/test_joint_scatter.png)
+### Half Court (Single Player)
+
+````carousel
+![Half Scatter](../_static/test_joint_half_scatter.png)
+<!-- slide -->
+![Half KDE](../_static/test_joint_half_kde.png)
+<!-- slide -->
+![Half Grid](../_static/test_joint_grid.png)
+````
+
+```python
+fig, ax = joint_plot(x, y, kind='scatter', half=True)
+```
+
+**Visualization Types**: `scatter`, `kde`, `grid`

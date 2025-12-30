@@ -1,160 +1,122 @@
+"""
+Radar Chart for Tennis Player Comparison
+Inspired by mplsoccer's radar chart functionality
+"""
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Circle, RegularPolygon
-from matplotlib.path import Path
-from matplotlib.projections.polar import PolarAxes
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, Rectangle, Polygon
 from matplotlib.projections import register_projection
-from matplotlib.spines import Spine
-from matplotlib.transforms import Affine2D
+from matplotlib.projections.polar import PolarAxes
+
 
 class Radar:
     """
-    Radar chart class mimicking mplsoccer API.
+    A class to create radar charts for comparing tennis player statistics.
+    
+    Parameters
+    ----------
+    params : list of str
+        List of parameter names to display on the radar chart.
+    min_range : list of float, optional
+        Minimum values for each parameter. If None, uses 0 for all.
+    max_range : list of float, optional
+        Maximum values for each parameter. If None, uses 100 for all.
+    
+    Examples
+    --------
+    >>> params = ['Serve Speed', 'First Serve %', 'Aces', 'Winners', 'Break Points Won']
+    >>> radar = Radar(params, min_range=[0, 0, 0, 0, 0], max_range=[220, 100, 20, 50, 100])
+    >>> fig, ax = radar.setup_axis()
+    >>> radar.draw_circles(ax)
+    >>> radar.draw(ax, [200, 65, 12, 35, 45], label='Player A', color='#e74c3c')
+    >>> radar.draw(ax, [190, 70, 8, 40, 50], label='Player B', color='#3498db')
+    >>> plt.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+    >>> plt.show()
     """
-    def __init__(self, params, low, high, lower_is_better=None, round_int=None,
-                 num_rings=4, ring_width=1, center_circle_radius=1):
+    
+    def __init__(self, params, min_range=None, max_range=None):
         self.params = params
-        self.low = np.array(low)
-        self.high = np.array(high)
-        self.num_rings = num_rings
-        self.ring_width = ring_width
-        self.center_circle_radius = center_circle_radius
+        self.n_params = len(params)
         
-        if lower_is_better is None:
-            self.lower_is_better = []
+        if min_range is None:
+            self.min_range = [0] * self.n_params
         else:
-            self.lower_is_better = lower_is_better
+            self.min_range = min_range
             
-        # Determine angles
-        self.num_params = len(params)
-        self.angles = np.linspace(0, 2*np.pi, self.num_params, endpoint=False)
-        self.angles = np.concatenate((self.angles, [self.angles[0]]))
-        
-        # Ranges
-        self.ranges = self.high - self.low
-        
-    def setup_axis(self, ax=None, facecolor='white', **kwargs):
-        """Setup the polar axis."""
-        if ax is None:
-            fig = plt.figure(facecolor=facecolor)
-            ax = fig.add_subplot(111, polar=True, **kwargs)
+        if max_range is None:
+            self.max_range = [100] * self.n_params
         else:
-            fig = ax.figure
-            
+            self.max_range = max_range
+    
+    def normalize_values(self, values):
+        """Normalize values to 0-1 range based on min/max ranges."""
+        normalized = []
+        for val, min_val, max_val in zip(values, self.min_range, self.max_range):
+            norm = (val - min_val) / (max_val - min_val)
+            normalized.append(max(0, min(1, norm)))  # Clamp to [0, 1]
+        return normalized
+    
+    def setup_axis(self, figsize=(8, 8), facecolor='white'):
+        """Create and return figure and polar axis."""
+        fig = plt.figure(figsize=figsize, facecolor=facecolor)
+        ax = fig.add_subplot(111, projection='polar')
         ax.set_facecolor(facecolor)
         
-        # Hide standard grid and spines
-        ax.grid(False)
-        ax.spines['polar'].set_visible(False)
+        # Set theta direction and offset
+        ax.set_theta_offset(np.pi / 2)
+        ax.set_theta_direction(-1)
+        
+        # Remove default polar grid
+        ax.set_ylim(0, 1)
+        ax.set_yticks([])
         ax.set_yticklabels([])
-        ax.set_xticklabels([])
+        ax.spines['polar'].set_visible(False)
+        
+        # Set parameter labels
+        angles = np.linspace(0, 2 * np.pi, self.n_params, endpoint=False).tolist()
+        ax.set_xticks(angles)
+        ax.set_xticklabels(self.params, size=10)
         
         return fig, ax
+    
+    def draw_circles(self, ax, num_rings=5, color='#d3d3d3', linewidth=1):
+        """Draw concentric circles as background grid."""
+        for i in range(1, num_rings + 1):
+            circle_val = i / num_rings
+            angles = np.linspace(0, 2 * np.pi, 100)
+            ax.plot(angles, [circle_val] * len(angles), 
+                   color=color, linewidth=linewidth, linestyle='-', alpha=0.5)
+    
+    def draw(self, ax, values, label=None, color='#3498db', alpha=0.25, linewidth=2):
+        """
+        Draw a player's statistics on the radar chart.
         
-    def _normalize(self, values):
-        """Normalize values to match the radar range."""
-        norm_values = []
-        for i, (val, lo, hi, label) in enumerate(zip(values, self.low, self.high, self.params)):
-            if label in self.lower_is_better:
-                # Invert logic: Lower is better means closer to center? 
-                # Usually radar charts: center is "bad" (0) or "low", outer is "good".
-                # If lower is better, then low value -> outer edge (high score), high value -> center (low score).
-                # Normalized = (High - Val) / (High - Low)
-                n = (hi - val) / (hi - lo)
-            else:
-                # Standard: (Val - Low) / (High - Low)
-                n = (val - lo) / (hi - lo)
-            
-            # Clip 0-1
-            n = np.clip(n, 0, 1)
-            norm_values.append(n)
-            
-        return np.array(norm_values)
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes
+            The polar axis to draw on.
+        values : list of float
+            The values for each parameter.
+        label : str, optional
+            Label for the legend.
+        color : str, optional
+            Color for the plot.
+        alpha : float, optional
+            Transparency for the filled area.
+        linewidth : float, optional
+            Width of the outline.
+        """
+        # Normalize values
+        norm_values = self.normalize_values(values)
         
-    def _scale_to_rings(self, norm_values):
-        """Scale normalized 0-1 values to the ring coordinates."""
-        # 0 -> center_circle_radius
-        # 1 -> center_circle_radius + num_rings * ring_width
-        return self.center_circle_radius + norm_values * (self.num_rings * self.ring_width)
-
-    def draw_circles(self, ax, facecolor='none', edgecolor='#D4D4D4', **kwargs):
-        """Draw the background rings."""
-        rings = []
-        for i in range(self.num_rings + 1):
-            radius = self.center_circle_radius + i * self.ring_width
-            # Draw circle
-            # Using plot for circles in polar coords
-            x = np.linspace(0, 2*np.pi, 200)
-            y = np.full_like(x, radius)
-            l = ax.plot(x, y, color=edgecolor, linewidth=1, zorder=0)
-            rings.append(l)
-            
-            # Fill logic if needed (not strictly circles but alternating bands usually)
-            
-        # Draw center circle
-        # ax.fill_between(x, 0, self.center_circle_radius, color=facecolor)
-        # We can simulate fill by filling the largest circle with background
+        # Close the plot by appending the first value
+        norm_values += norm_values[:1]
         
-        return rings
-
-    def draw_radar_solid(self, values, ax, kwargs=None):
-        """Draw the filled radar polygon."""
-        if kwargs is None:
-            kwargs = {}
-            
-        norm_values = self._normalize(values)
-        scaled_values = self._scale_to_rings(norm_values)
-        
-        # Close loop
-        scaled_values = np.concatenate((scaled_values, [scaled_values[0]]))
+        # Calculate angles
+        angles = np.linspace(0, 2 * np.pi, self.n_params, endpoint=False).tolist()
+        angles += angles[:1]
         
         # Plot
-        line, = ax.plot(self.angles, scaled_values, **{k:v for k,v in kwargs.items() if k!='alpha' and k!='facecolor'})
-        
-        # Fill
-        poly = ax.fill(self.angles, scaled_values, zorder=kwargs.get('zorder', 2), **{k:v for k,v in kwargs.items() if k!='lw' and k!='linewidth' and k!='linestyle'})
-        
-        return line, poly
-
-    def draw_param_labels(self, ax, fontsize=10, pad=15, **kwargs):
-        """Draw labels for each parameter."""
-        labels = []
-        outer_radius = self.center_circle_radius + self.num_rings * self.ring_width
-        
-        # Using self.params (not closed)
-        for angle, label in zip(self.angles[:-1], self.params):
-            # Calculate position
-            # Add padding
-            # Convert polar to cartesian to add offset? No, just use R + pad
-            # But "pad" in polar is just more radius? Or pixel offset?
-            # Easier to use text alignment.
-            
-            # Rotation
-            rot = angle * 180 / np.pi
-            # if 90 < rot < 270:
-            #     rot += 180
-            
-            # Alignment
-            ha = 'center'
-            # if 0 <= angle < np.pi/2 or 3*np.pi/2 < angle <= 2*np.pi:
-            #     ha = 'left'
-            # else:
-            #     ha = 'right'
-            
-            # Distance: The text needs to be slightly outside the last ring.
-            # We can use ax.text(angle, radius, ...)
-            
-            # A simple heuristic for distance
-            dist = outer_radius + (self.ring_width * 0.5) 
-            
-            t = ax.text(angle, dist, label, ha='center', va='center', fontsize=fontsize, **kwargs)
-            labels.append(t)
-            
-        return labels
-
-    def draw_range_labels(self, ax, fontsize=10, **kwargs):
-        """Draw scale labels."""
-        # Typically on the vertical axis (angle 0 or pi/2)
-        return []
-
+        ax.plot(angles, norm_values, color=color, linewidth=linewidth, label=label)
+        ax.fill(angles, norm_values, color=color, alpha=alpha)

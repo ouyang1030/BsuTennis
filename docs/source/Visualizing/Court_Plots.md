@@ -1,60 +1,127 @@
 # Court Visualizations
 
-The core of ``BsuTennis`` is the ``TennisCourt`` class, which allows you to draw tennis courts and overlay various types of data.
+The ``TennisCourt`` class is the foundation of BsuTennis visualization. It provides intuitive methods for drawing courts and overlaying data.
 
-## Creating a Court
+---
 
-You can create a court instance with varying orientations and themes.
+## Quick Start
 
 ```python
-import matplotlib.pyplot as plt
 from BsuTennis import TennisCourt
+import matplotlib.pyplot as plt
 
-fig, ax = plt.subplots(figsize=(6, 10))
-court = TennisCourt(orientation='vertical', half=False, theme='bsu')
+court = TennisCourt(theme='bsu', half=True)
+fig, ax = plt.subplots(figsize=(6, 8))
 court.draw(ax=ax)
 plt.show()
 ```
 
-### Parameters
-- **orientation**: ``'vertical'`` (default) or ``'horizontal'``.
-- **half**: ``True`` (draw only half court) or ``False`` (full court).
-- **theme**: Color theme (e.g., ``'bsu'``, ``'hard'``, ``'clay'``, ``'grass'``).
+---
 
-## Scatter Plots (Events)
+## Court Themes
 
-Use ``scatter`` to plot shot landing points. You can apply predefined styles for common events like winners or errors.
+Choose from multiple court surface themes for different visual styles.
+
+| BSU (Default) | Hard Court | Clay Court | Grass Court |
+| :---: | :---: | :---: | :---: |
+| ![BSU](../_static/test_theme_bsu.png) | ![Hard](../_static/test_theme_hard.png) | ![Clay](../_static/test_theme_clay.png) | ![Grass](../_static/test_theme_grass.png) |
 
 ```python
-# Generic Scatter
-court.scatter(ax, x_data, y_data, color='blue', s=20)
-
-# Styled Events
-from BsuTennis import SCATTER_STYLES
-
-# Forehand Winner (Red Star)
-court.scatter(ax, x_win, y_win, style='winner_fh')
-
-# Unforced Error (Red Triangle)
-court.scatter(ax, x_err, y_err, style='ue')
+# Available themes: 'bsu', 'hard', 'clay', 'grass'
+court = TennisCourt(theme='clay')
 ```
 
-### Available Styles
-Styles mimic standard tennis analysis visual markers. defined in ``SCATTER_STYLES``:
+---
 
-- ``winner_fh`` / ``winner_bh`` / ``winner``
-- ``forcing_fh`` / ``forcing_bh`` / ``forcing``
-- ``ue`` (Unforced Error) / ``fe`` (Forced Error)
-- ``ace``
+## Court Orientations
+
+| Full Court (Horizontal) | Half Court (Vertical) |
+| :---: | :---: |
+| ![Horizontal](../_static/test_horizontal_doubles.png) | ![Vertical](../_static/test_vertical_singles.png) |
+
+```python
+# Full court (default: horizontal)
+court = TennisCourt(half=False)
+
+# Half court (default: vertical)
+court = TennisCourt(half=True)
+```
+
+---
+
+## Scatter Plots
+
+Visualize shot landing points with customizable markers.
+
+````carousel
+![Horizontal Scatter](../_static/test_scatter_h.png)
+<!-- slide -->
+![Vertical Scatter](../_static/test_scatter_v.png)
+````
+
+```python
+court.scatter(ax, x, y, color='#e74c3c', s=60, alpha=0.8)
+```
+
+### Preset Styles
+
+Quick styling for common event types:
 
 ![Scatter Styles](../_static/test_scatter_styles.png)
 
-## Trajectories (Arrows)
-
-Use ``arrows`` to visualize shot direction or player movement.
-
 ```python
-court.arrows(ax, x_start, y_start, x_end, y_end, color='white', width=0.005)
+court.scatter(ax, x, y, style='winner_fh')  # Red star
+court.scatter(ax, x, y, style='ue')         # Error marker
 ```
 
-![Arrows Example](../_static/test_arrows_h.png)
+**Styles**: `winner_fh`, `winner_bh`, `forcing_fh`, `forcing_bh`, `ue`, `fe`, `ace`
+
+---
+
+## Arrow Trajectories
+
+Draw shot directions with customizable arrows.
+
+```python
+court.arrows(ax, x_start, y_start, x_end, y_end,
+             color='#e74c3c',      # Color
+             linewidth=2,          # Thickness
+             linestyle='solid',    # solid/dashed/dotted
+             arrow_style='fancy')  # fancy/simple/wedge/curve
+```
+
+---
+
+## Guide Lines & Zones
+
+Overlay tactical zones for serve analysis.
+
+| Vertical (3 Zones) | Horizontal (2 Zones) |
+| :---: | :---: |
+| ![Vertical Guides](../_static/test_half_vertical_zones.png) | ![Horizontal Guides](../_static/test_half_horizontal_zones.png) |
+
+```python
+court.draw_guides(ax, service_vertical_lines=2, backcourt_line=True)
+```
+
+---
+
+## Multi-Court Grids
+
+Compare multiple players or scenarios side-by-side.
+
+````carousel
+![1×3 Grid](../_static/test_grid_1x3_vertical.png)
+<!-- slide -->
+![2×3 Grid](../_static/test_grid_2x3_horizontal.png)
+<!-- slide -->
+![3×3 Grid](../_static/test_grid_3x3_vertical.png)
+````
+
+```python
+from BsuTennis import create_court_grid
+
+fig, axes, courts = create_court_grid(nrows=2, ncols=3, half=True)
+for ax, court in zip(axes.flat, courts):
+    court.draw(ax=ax)
+```
