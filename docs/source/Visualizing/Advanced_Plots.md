@@ -48,23 +48,6 @@ court.hexbin(ax, x, y, gridsize=20, cmap='bsu_green', half=True)
 
 ---
 
-## Pizza Chart
-
-Radial bar charts for player performance metrics.
-
-| BSU Theme | Comparison |
-| :---: | :---: |
-| ![BSU](../_static/test_pizza_bsu.png) | ![Compare](../_static/test_pizza_compare.png) |
-
-```python
-from BsuTennis import pizza
-
-stats = {'Aces': 85, 'Winners': 72, '1st Serve %': 68}
-fig, ax = pizza('Player Name', stats, theme='bsu')
-```
-
----
-
 ## Sonar Chart
 
 Shot direction distribution from court zones.
@@ -102,12 +85,9 @@ fig, ax = joint_plot(p1_x, p1_y, p2_x, p2_y, kind='kde', half=False)
 | :---: | :---: |
 | ![Scatter](../_static/test_joint_half_scatter.png) | ![Grid](../_static/test_joint_grid.png) |
 
-![KDE](../_static/test_joint_kde.png)
-
 ```python
 fig, ax = joint_plot(x, y, kind='scatter', half=True)
 fig, ax = joint_plot(x, y, kind='grid', half=True)
-fig, ax = joint_plot(x, y, kind='kde', half=False)
 ```
 
 **Types**: `scatter`, `kde`, `grid`
