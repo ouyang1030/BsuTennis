@@ -1,24 +1,19 @@
 # Installation
 
-## Requirements
-
-- Python 3.8+
-- matplotlib
-- numpy
-- scipy
-
-## Install via pip
-
 ```bash
 pip install bsutennis
 ```
 
-## Install from source (development)
+bsutennis needs Python 3.10 or newer; numpy, pandas, matplotlib and scipy are installed with it.
+
+## From source
 
 ```bash
-git clone https://github.com/ouyang1030/tennis.git
-cd tennis
-pip install -e .
+git clone https://github.com/ouyang1030/BsuTennis.git
+cd BsuTennis
+pip install -e ".[dev]"   # package + test and docs dependencies
+pytest                    # offline tests
+pytest -m network         # tests that download data
 ```
 
 ---
@@ -28,7 +23,7 @@ pip install -e .
 ## Draw a Tennis Court
 
 ```python
-from BsuTennis import TennisCourt
+from bsutennis import TennisCourt
 import matplotlib.pyplot as plt
 
 # Create and draw court
@@ -41,7 +36,8 @@ plt.show()
 ## Visualize Shot Distribution
 
 ```python
-from BsuTennis import TennisCourt
+from bsutennis import TennisCourt
+import matplotlib.pyplot as plt
 import numpy as np
 
 # Generate sample data

@@ -57,7 +57,7 @@ Shot direction distribution from court zones.
 | ![6-Dir](../_static/test_sonar_6dir.png) | ![8-Dir](../_static/test_sonar_8dir.png) | ![Custom](../_static/test_sonar_custom.png) |
 
 ```python
-from BsuTennis import sonar_from_shots
+from bsutennis import sonar_from_shots
 
 sonar_from_shots(ax, shot_x, shot_y, shot_dx, shot_dy,
                  n_zones_x=3, n_zones_y=2, n_directions=6)
@@ -74,7 +74,7 @@ Court visualization with marginal distributions.
 ![Joint KDE](../_static/test_joint_kde.png)
 
 ```python
-from BsuTennis import joint_plot
+from bsutennis import joint_plot
 
 fig, ax = joint_plot(p1_x, p1_y, p2_x, p2_y, kind='kde', half=False)
 ```

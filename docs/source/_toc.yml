@@ -8,9 +8,11 @@ parts:
   - caption: Getting Started
     chapters:
       - file: Getting_Started/Installation
-      - file: Getting_Started/Loading_Game
+      - file: Getting_Started/Loading_Data
+      - file: Getting_Started/Loading_Charting
+      - file: Getting_Started/Loading_Results
   - caption: Visualizing Tennis Data
-    chapters: 
+    chapters:
       - file: Visualizing/Court_Plots
       - file: Visualizing/Advanced_Plots
       - file: Visualizing/Statistical_Charts
@@ -19,6 +21,12 @@ parts:
   - caption: Data Analysis
     chapters:
       - file: Data_Analysis/Data_Analysis
-  - caption: Examples
+      - file: Data_Analysis/Win_Probability
+      - file: Data_Analysis/Elo_Ratings
+      - file: Data_Analysis/Player_Profiles
+      - file: Data_Analysis/Serve_Patterns
+      - file: Data_Analysis/Rally_Length
+      - file: Data_Analysis/Shot_Value
+  - caption: Reference
     chapters:
-      - file: Examples/Examples
+      - file: API/Reference

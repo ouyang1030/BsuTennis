@@ -1,6 +1,6 @@
 # Themes and Customization
 
-``BsuTennis`` comes with built-in color themes to instantly change the look of your court visualizations.
+``bsutennis`` comes with built-in color themes to instantly change the look of your court visualizations.
 
 ## Applying a Theme
 
