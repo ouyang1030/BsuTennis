@@ -7,7 +7,7 @@ The ``TennisCourt`` class is the foundation of BsuTennis. It draws courts and ov
 ## Quick Start
 
 ```python
-from BsuTennis import TennisCourt
+from bsutennis import TennisCourt
 import matplotlib.pyplot as plt
 
 court = TennisCourt(theme='bsu', half=True)
@@ -110,7 +110,7 @@ Compare multiple players or scenarios side-by-side.
 | ![1x3](../_static/test_grid_1x3_vertical.png) | ![2x3](../_static/test_grid_2x3_horizontal.png) | ![3x3](../_static/test_grid_3x3_vertical.png) |
 
 ```python
-from BsuTennis import create_court_grid
+from bsutennis import create_court_grid
 
 fig, axes, courts = create_court_grid(nrows=2, ncols=3, half=True)
 for ax, court in zip(axes.flat, courts):

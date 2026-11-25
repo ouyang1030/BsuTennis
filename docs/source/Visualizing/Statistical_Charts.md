@@ -11,7 +11,7 @@ General statistical visualizations with consistent styling for tennis analytics 
 ![Bar Chart](../_static/test_chart_bar.png)
 
 ```python
-from BsuTennis import plot_bar
+from bsutennis import plot_bar
 
 fig, ax = plt.subplots()
 plot_bar(ax, categories=['Set 1', 'Set 2', 'Set 3'], 
@@ -23,7 +23,7 @@ plot_bar(ax, categories=['Set 1', 'Set 2', 'Set 3'],
 ![Horizontal Bar](../_static/test_chart_horizontal.png)
 
 ```python
-from BsuTennis import plot_horizontal_bar
+from bsutennis import plot_horizontal_bar
 
 plot_horizontal_bar(ax, categories=['Aces', 'Winners', 'Errors'], 
                     values=[12, 28, 15])
@@ -34,7 +34,7 @@ plot_horizontal_bar(ax, categories=['Aces', 'Winners', 'Errors'],
 ![Comparison](../_static/test_chart_comparison.png)
 
 ```python
-from BsuTennis import plot_bar_comparison
+from bsutennis import plot_bar_comparison
 
 plot_bar_comparison(ax, 
     categories=['1st Serve %', 'Aces', 'Winners'],
@@ -49,7 +49,7 @@ plot_bar_comparison(ax,
 ![Line Chart](../_static/test_chart_line.png)
 
 ```python
-from BsuTennis import plot_line
+from bsutennis import plot_line
 
 plot_line(ax, x=[1, 2, 3, 4, 5], y=[65, 70, 68, 75, 72])
 ```
@@ -61,7 +61,7 @@ plot_line(ax, x=[1, 2, 3, 4, 5], y=[65, 70, 68, 75, 72])
 ![Pie Chart](../_static/test_chart_pie.png)
 
 ```python
-from BsuTennis import plot_pie
+from bsutennis import plot_pie
 
 plot_pie(ax, values=[60, 25, 15], 
          labels=['Winners', 'Errors', 'Net Points'])
@@ -74,7 +74,7 @@ plot_pie(ax, values=[60, 25, 15],
 ![Table](../_static/test_chart_table.png)
 
 ```python
-from BsuTennis import plot_table
+from bsutennis import plot_table
 
 plot_table(ax, 
     data=[['6-4', '7-5'], ['4-6', '5-7']],
@@ -93,7 +93,7 @@ Radial bar charts for player performance metrics.
 | ![BSU](../_static/test_pizza_bsu.png) | ![Compare](../_static/test_pizza_compare.png) |
 
 ```python
-from BsuTennis import pizza
+from bsutennis import pizza
 
 stats = {'Aces': 85, 'Winners': 72, '1st Serve %': 68}
 fig, ax = pizza('Player Name', stats, theme='bsu')
@@ -106,7 +106,7 @@ fig, ax = pizza('Player Name', stats, theme='bsu')
 ![Radar](../_static/test_radar.png)
 
 ```python
-from BsuTennis import Radar
+from bsutennis import Radar
 
 radar = Radar(params=['Speed', 'Power', 'Accuracy', 'Stamina', 'Mental'],
               min_range=[0, 0, 0, 0, 0], max_range=[100, 100, 100, 100, 100])

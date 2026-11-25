@@ -1,0 +1,19 @@
+name: data sources
+
+# The loaders read pinned commits of third-party repositories. This checks
+# weekly that they can still be downloaded and parsed.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  network-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install -e ".[test]"
+      - run: python -m pytest -m network

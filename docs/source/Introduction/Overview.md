@@ -1,16 +1,21 @@
 # Overview
 
-BsuTennis is a Python package designed to create visualizations of tennis courts and provide tools for tennis-related data analysis. 
-It supports various court types and offers a wide range of plotting options.
+BsuTennis (`import bsutennis`) is a Python package for tennis data processing, analysis and visualisation.
 
-## What is BsuTennis
+## What you can do today
 
-In BsuTennis, you can:
+- draw singles or doubles courts, full or half, horizontal or vertical, with six colour themes
+  (`bsu`, `hard`, `clay`, `grass`, `dark`, `light`)
+- plot scatter, KDE, heatmaps, hexbins and arrows on the court
+- build joint plots with marginal distributions and grids of courts
+- draw sonar, pizza and radar charts, plus simple bar / line / pie / table charts
+- convert raw positions into the standard court frame and classify serve zones and shot depth
+- load Grand Slam point-by-point data into tidy `matches` / `points` tables with a documented schema
+- replay matches with the scoring rules of their year (break, set and match points, tiebreaks)
+  and check every point against the source
 
-- plot tennis courts on nine different pitch types
-- plot radar charts
-- plot Nightingale/pizza charts
-- plot bumpy charts for showing changes over time
-- plot arrows, heatmaps, hexbins, scatter, and (comet) lines
-- load ATP data as a tidy dataframe
-- standardize pitch coordinates into a single format
+## Planned
+
+- Match Charting Project (shot level) and ATP/WTA match results
+- analysis lessons: serve patterns, rally length, point-win and match-win probability, momentum,
+  shot value, Elo ratings

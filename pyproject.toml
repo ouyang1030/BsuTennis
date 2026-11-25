@@ -1,8 +1,65 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "lumache"
-authors = [{name = "Graziella", email = "graziella@lumache"}]
-dynamic = ["version", "description"]
+name = "bsutennis"
+dynamic = ["version"]
+description = "Tennis data processing, analysis and visualisation."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Jiangyan Yang" }]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "scipy>=1.10",
+]
+keywords = ["tennis", "sports analytics", "point-by-point", "match charting", "elo", "visualization"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+docs = [
+    "sphinx",
+    "sphinx-book-theme",
+    "myst-nb",
+    "sphinx-togglebutton",
+    "sphinx-copybutton",
+    "sphinx-thebe",
+    "sphinx-comments",
+    "sphinx-external-toc",
+    "sphinx-design",
+    "sphinx-multitoc-numbering",
+    "linkify-it-py",
+]
+dev = ["bsutennis[test,docs]"]
+
+[project.urls]
+Repository = "https://github.com/ouyang1030/BsuTennis"
+Issues = "https://github.com/ouyang1030/BsuTennis/issues"
+Changelog = "https://github.com/ouyang1030/BsuTennis/blob/master/CHANGELOG.md"
+
+[tool.setuptools.dynamic]
+version = { attr = "bsutennis.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -m 'not network'"
+markers = ["network: downloads open data (run with `pytest -m network`)"]

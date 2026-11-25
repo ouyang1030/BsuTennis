@@ -6,10 +6,12 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import bsutennis
+
 project = 'BsuTennis'
 copyright = '2025, Jiangyan Yang'
 author = 'Jiangyan Yang'
-release = '0.1.0'
+release = bsutennis.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -35,7 +37,6 @@ add_module_names = False
 numfig = True
 
 templates_path = ['_templates']
-source_suffix = {'.rst': 'restructuredtext', '.md': 'restructuredtext'}
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -48,7 +49,7 @@ html_title = "BsuTennis Documentation"
 html_theme_options = {
     "search_bar_text": "Search this book...",
     "repository_url": "https://github.com/ouyang1030/BsuTennis",  
-    "repository_branch": "main",
+    "repository_branch": "master",
     "path_to_docs": "docs",
     "use_repository_button": True,
     "use_issues_button": True,
@@ -69,4 +70,4 @@ myst_enable_extensions = [
     "tasklist",
 ]
 nb_execution_mode = "auto"
-nb_execution_timeout = 30
+nb_execution_timeout = 120
