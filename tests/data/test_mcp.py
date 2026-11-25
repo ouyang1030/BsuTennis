@@ -89,10 +89,8 @@ def test_second_serve_ace(dataset):
     p = point(dataset, 1)
     assert (p.serve_no, p.ace, p.outcome, p.rally_count, p.serve_direction) == (2, True, "ace", 1, "wide")
     shots = dataset.shots[dataset.shots.point_no == 1]
-    assert shots[["serve_no", "shot_no", "ending", "error"]].values.tolist() == [
-        [1, 1, "fault", "net"],
-        [2, 1, "ace", None],
-    ]
+    assert shots[["serve_no", "shot_no", "ending"]].values.tolist() == [[1, 1, "fault"], [2, 1, "ace"]]
+    assert shots.error.iloc[0] == "net" and pd.isna(shots.error.iloc[1])  # None or NaN, by pandas version
 
 
 def test_double_fault(dataset):

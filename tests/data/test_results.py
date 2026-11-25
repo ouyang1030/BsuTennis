@@ -88,7 +88,7 @@ def test_season_and_cleaned_values(dataset):
     walkover = dataset.matches.loc["2023-0311-R64-12"]
     assert walkover.year == 2023  # the season, although the event starts in December 2022
     assert walkover.tournament == "US Open"  # the source writes 'Us Open'
-    assert (walkover.status, walkover.scoreline) == ("walkover", None)
+    assert walkover.status == "walkover" and pd.isna(walkover.scoreline)
     assert pd.isna(walkover.surface) and pd.isna(walkover.minutes)
     winner = dataset.players.iloc[2]
     assert pd.isna(winner.hand) and pd.isna(winner.seed) and winner.entry == "ALT"
