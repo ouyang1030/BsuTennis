@@ -57,7 +57,7 @@ pinned commit and cached in `~/.cache/bsutennis` (set `BSUTENNIS_CACHE` to chang
 - `bsutennis.geometry`: court dimensions, coordinates and zones
 - `bsutennis.viz`: court plots, zone heatmaps, pizza, radar and sonar charts
 
-The [documentation](https://github.com/ouyang1030/BsuTennis/tree/master/docs/source) has lessons
+The [documentation](https://bsutennis.readthedocs.io/en/latest/) has lessons
 on win probability, Elo ratings, player profiles, serve patterns, rally length and shot value.
 
 ## Development
